@@ -1,0 +1,40 @@
+/*全局样式表*/
+html，
+body,
+#app{
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+  }
+  
+  body {
+    font-size: 14px;
+    color: #4a4a4a;
+    font-family: PingFangSC-Light; /*苹果设计的一款全新的中文系统字体，该字体支持苹果的动态字体调节技术*/
+  }
+  
+  ul {
+    list-style: none;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+
+  .regIndent .el-form-item__error {
+    padding-left: 10px;
+  }
+
+  .config-illMsg .el-textarea__inner {
+    padding: 15px 10px;
+    line-height: 1.8;
+    margin: 0px auto;
+    margin-bottom: 30px;
+    width: 100%;
+    font-size: 16px;
+  }
