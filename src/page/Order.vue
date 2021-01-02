@@ -6,8 +6,11 @@
       <el-col :span="16">
         <el-card :body-style="{ padding: '10px',height:'540px'}" style="margin:3% 30% 3% 5% ">
           <el-table :data="tableData" size="big" :cell-style="{textAlign:'center'}" :header-cell-style="{background:'#E7E2E2',color:'#363434',textAlign:'center'}" style="width: 100%">
-            <el-table-column prop="actor" label="预约医生"></el-table-column>
-            <el-table-column prop="name" label="就诊人"></el-table-column>
+            <el-table-column prop="date" label="预约时间"></el-table-column>
+            <el-table-column prop="hospital" label="医院"></el-table-column>
+            <el-table-column prop="depart" label="科室"></el-table-column>
+            <el-table-column prop="actor" label="医生"></el-table-column>
+            <el-table-column prop="money" label="金额"></el-table-column>
             <el-table-column prop="state" label="预约状态">
                 <!-- <template slot-scope="scope">
                   <span style="color:#87A3D3" v-if="scope.row.state === 0">未就诊</span>
@@ -16,8 +19,6 @@
                   <span v-else>无数据</span>
                 </template> -->
             </el-table-column>
-            <el-table-column prop="date" label="就诊日期"></el-table-column>
-            <el-table-column prop="money" label="金额"></el-table-column>
             <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
                   <el-button v-if="scope.row.state !== 1 " @click="handleCancle(scope.row)" type="text">取消订单</el-button>
@@ -33,6 +34,7 @@
 <script>
 import UserHeader from '@/components/UserHeader.vue'
 import Menu from '@/components/Menu.vue'
+import { present } from '../api/order'
 export default {
   components: {
     UserHeader,
@@ -41,24 +43,22 @@ export default {
   data () {
     return {
       // table 的假数据
-      tableData: [{
-        index: '',
-        actor: '王医生',
-        name: '张三',
-        state: 1,
-        date: '2020-05-02',
-        money: 40
-      }, {
-        index: '',
-        actor: '王医生',
-        name: '李四',
-        state: 0,
-        date: '2020-05-02',
-        money: 40
-      }]
+      tableData: []
     }
   },
   methods: {
+    init () {
+      present()
+        .then((response) => {
+          this.lists = response.appoint_list
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  },
+  mounted () {
+    this.init()
   }
 }
 </script>
