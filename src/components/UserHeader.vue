@@ -5,7 +5,10 @@
       <el-col :span="14"><div class="bg-purple">欢迎您登陆预约挂号服务平台！</div></el-col>
       <el-col :span="2"><div class="bg-purple"></div></el-col>
       <el-col :span="8"><div class="bg-purple">
-        <el-button type="text" style="padding:5px">退出登录</el-button>
+        <template>
+          <el-button v-if="token" @click="logOut()" type="text">退出登录</el-button>
+          <el-button v-else @click="goLog()" type="text">去登录/注册</el-button>
+        </template>
       </div></el-col>
     </el-row>
   <el-container>
@@ -28,19 +31,22 @@
     </el-main>
   </el-container>
   <el-menu default-active="$route.path" router class="menu-demo" mode="horizontal" background-color="#4c96e1" text-color="#fff" active-text-color="#ffd04">
-    <el-menu-item index="/home" class="menu_item"><a href="#">网站首页</a></el-menu-item>
-    <el-menu-item index="/appoint" class="menu_item"><a href="#">预约挂号</a></el-menu-item>
+    <el-menu-item index="/home" class="menu_item">网站首页</el-menu-item>
+    <el-menu-item index="/appoint" class="menu_item">预约挂号</el-menu-item>
     <el-menu-item index="/order" class="menu_item">个人中心</el-menu-item>
-    <el-menu-item index="/guide" class="menu_item"><a href="#">预约指南</a></el-menu-item>
+    <el-menu-item index="/guide" class="menu_item">预约指南</el-menu-item>
   </el-menu>
 </el-container>
 </template>
 
 <script>
+import cookie from 'js-cookie'
 export default {
   name: 'UserHeader',
+  inject: ['reload'], // 注入reload方法
   data () {
     return {
+      token: cookie.get('token'),
       input: '',
       radio1: '医生',
       holder: '请输入医生名进行搜索'
@@ -53,6 +59,18 @@ export default {
       } else if (this.radio1 === '医院') {
         this.holder = '请输入医院名进行搜索'
       }
+    }
+  },
+  methods: {
+    getToken () {
+      this.token = cookie.get('token')
+    },
+    goLog () {
+      this.$router.push({ path: '/login' })
+    },
+    logOut () {
+      cookie.remove('token')
+      this.getToken()
     }
   }
 }
@@ -109,5 +127,8 @@ export default {
     padding-top:0.6%;
     padding-bottom:0.6%;
     padding-right:10%;
+  }
+  .el-button{
+    padding:5px
   }
 </style>
