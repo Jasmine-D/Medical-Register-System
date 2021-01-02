@@ -12,10 +12,10 @@
                 <h2 class="title">账号登录</h2>
                 <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                 <el-form-item style="margin-left:-80px" prop="resource">
-                  <el-radio-group v-model="ruleForm.identity">
+                  <!-- <el-radio-group v-model="ruleForm.identity">
                     <el-radio label="我是患者"></el-radio>
                     <el-radio label="我是医生"></el-radio>
-                  </el-radio-group>
+                  </el-radio-group> -->
                 </el-form-item>
                   <el-form-item label="账号：" prop="account">
                     <el-input  v-model="ruleForm.account" autocomplete="off" clearable >
@@ -136,7 +136,7 @@ export default {
 
   .login_box{
     width: 350px;
-    height: 400px;
+    height: 370px;
     background: #ffffff;
     border: 1px solid #eeebeb;
     border-radius: 20px;
@@ -159,7 +159,7 @@ export default {
 
   .title{
     padding-top: 40px;
-    padding-bottom: 20px;
+    padding-bottom: 30px;
   }
 
   .el-input {

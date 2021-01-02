@@ -22,16 +22,16 @@
                 <td>
                   <div class="docInfo"><img class="image" src="../assets/img/doc1.png" alt="张峰">
                     <dl>
-                      <dt><span style="color:#2d8cf0;">张峰</span> 主任医师</dt>
-                      <dd><p>复旦大学附属中山医院高级专家门诊</p>
-                          <p>心内科</p>
+                      <dt style="color:#2d8cf0;">{{doctor}}张峰</dt>
+                      <dd><p>{{hospital_name}}{{professional_title}}复旦大学附属中山医院高级专家门诊</p>
+                          <p>{{department}}心内科</p>
                       </dd>
                     </dl>
                   </div>
                 </td>
-                <td>高级专家门诊</td>
-                <td>2021年01月04日&nbsp;上午<br/></td>
-                <td class="g-txt-orange">400.00元<br/>(挂号费）</td>
+                <td>{{professional_title}}高级专家门诊</td>
+                <td>{{date}}2021年01月04日&nbsp;上午<br/></td>
+                <td class="g-txt-orange">{{price}}400.00元<br/>(挂号费）</td>
               </tr>
             </tbody>
           </table>
@@ -40,7 +40,7 @@
       <el-row :gutter="16" >
       <el-card :body-style="{ padding: '15px' }" style="margin-bottom:40px">
         <p class="title">填写疾病信息</p>
-        <el-input type="textarea" :rows="2" placeholder="请输入疾病信息" v-model="textarea" maxlength="50" show-word-limit class="config-illMsg"></el-input>
+        <el-input type="textarea" :rows="2" placeholder="请输入疾病信息" v-model="details" maxlength="50" show-word-limit class="config-illMsg"></el-input>
       </el-card>
       </el-row>
        <el-button type="success" round style="display:block;margin:0px auto" @click="handleConfig">确认预约</el-button>
@@ -54,7 +54,14 @@ export default {
   components: { UserHeader },
   data () {
     return {
-      textarea: ''
+      date: '',
+      hospital_name: '',
+      doctor_name: '',
+      department: '',
+      time_slot: '',
+      professional_title: '',
+      price: '',
+      details: ''
     }
   },
   methods: {

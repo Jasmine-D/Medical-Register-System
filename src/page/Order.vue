@@ -4,14 +4,14 @@
     <el-row>
       <Menu/>
       <el-col :span="16">
-        <el-card :body-style="{ padding: '10px',height:'540px'}" style="margin:3% 30% 3% 5% ">
-          <el-table :data="tableData" size="big" :cell-style="{textAlign:'center'}" :header-cell-style="{background:'#E7E2E2',color:'#363434',textAlign:'center'}" style="width: 100%">
+        <el-card :body-style="{ padding: '10px',height:'540px'}" style="margin:3% 28% 3% 5% ">
+          <el-table :data="lists" size="big" :cell-style="{textAlign:'center'}" :header-cell-style="{background:'#E7E2E2',color:'#363434',textAlign:'center'}" style="width: 100%">
             <el-table-column prop="date" label="预约时间"></el-table-column>
-            <el-table-column prop="hospital" label="医院"></el-table-column>
-            <el-table-column prop="depart" label="科室"></el-table-column>
-            <el-table-column prop="actor" label="医生"></el-table-column>
-            <el-table-column prop="money" label="金额"></el-table-column>
-            <el-table-column prop="state" label="预约状态">
+            <el-table-column prop="hospital_name" label="医院"></el-table-column>
+            <el-table-column prop="department" label="科室"></el-table-column>
+            <el-table-column prop="name" label="医生"></el-table-column>
+            <el-table-column prop="price" label="金额"></el-table-column>
+            <el-table-column prop="status" label="预约状态">
                 <!-- <template slot-scope="scope">
                   <span style="color:#87A3D3" v-if="scope.row.state === 0">未就诊</span>
                   <span style="color:green" v-else-if="scope.row.state === 1">已就诊</span>
@@ -19,9 +19,10 @@
                   <span v-else>无数据</span>
                 </template> -->
             </el-table-column>
-            <el-table-column fixed="right" label="操作">
+            <el-table-column prop="price" label="金额"></el-table-column>
+            <el-table-column fixed="right" label="操作" v-if="show">
                 <template slot-scope="scope">
-                  <el-button v-if="scope.row.state !== 1 " @click="handleCancle(scope.row)" type="text">取消订单</el-button>
+                  <el-button v-if="scope.row.state === 申请中 " @click="handleCancle(scope.row.order_id)" type="text">取消订单</el-button>
                 </template>
             </el-table-column>
           </el-table>
@@ -42,8 +43,9 @@ export default {
   },
   data () {
     return {
+      show: false,
       // table 的假数据
-      tableData: []
+      lists: []
     }
   },
   methods: {
@@ -51,10 +53,22 @@ export default {
       present()
         .then((response) => {
           this.lists = response.appoint_list
+          // console.log(response.appoint_list)
         })
         .catch((error) => {
           console.log(error)
         })
+    },
+    handleCancle (id) {
+      console.log(id)
+      /* cancel(id)
+        .then((response) => {
+          this.lists = response
+          console.log(response.appoint_list)
+        })
+        .catch((error) => {
+          console.log(error)
+        }) */
     }
   },
   mounted () {
@@ -89,5 +103,18 @@ export default {
   }
   .el-icon-arrow-down {
     font-size: 12px;
+  }
+
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
   }
 </style>

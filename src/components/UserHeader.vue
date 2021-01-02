@@ -43,7 +43,6 @@
 import cookie from 'js-cookie'
 export default {
   name: 'UserHeader',
-  inject: ['reload'], // 注入reload方法
   data () {
     return {
       token: cookie.get('token'),
