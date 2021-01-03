@@ -27,3 +27,10 @@ export function getSchedule (docName, hosName, dept) {
     method: 'get'
   })
 }
+
+export function getDocListAcc (hosName, deptName, limit, curPage) {
+  return request({
+    url: 'hospital_data/query?hospital_name=' + hosName + '&department_name=' + deptName + '&itemCountOnOnePage=' + limit + '&pageIndex=' + curPage,
+    method: 'get'
+  })
+}

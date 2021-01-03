@@ -39,7 +39,8 @@
 import UserHeader from '@/components/UserHeader.vue'
 import DocList from '@/components/DocList.vue'
 import {
-  getDocList
+  getDocList,
+  getDocListAcc
 } from '../api/Search'
 
 export default {
@@ -53,7 +54,9 @@ export default {
       currentPage: 0,
       totalPage: 0,
       docNum: 0,
-      docName: ''
+      docName: '',
+      hosName: '',
+      deptName: ''
     }
   },
   mounted () {
@@ -63,17 +66,32 @@ export default {
   methods: {
     showPage () {
       this.docName = localStorage.getItem('search')
-      console.log('docName', this.docName)
-      getDocList(this.docName, 3, this.currentPage)
-        .then((response) => {
-          this.docListInfo = response.data
-          this.totalPage = response.totalPage
-          this.docNum = response.count
-          console.log(response.data)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      if (this.docName !== '') {
+        console.log('docName', this.docName)
+        getDocList(this.docName, 3, this.currentPage)
+          .then((response) => {
+            this.docListInfo = response.data
+            this.totalPage = response.totalPage
+            this.docNum = response.count
+            console.log(response.data)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      } else {
+        this.hosName = this.$route.params.hosName
+        this.deptName = this.$route.params.deptName
+        getDocListAcc(this.hosName, this.deptName, 3, this.currentPage)
+          .then((response) => {
+            this.docListInfo = response.data
+            this.totalPage = response.totalPage
+            this.docNum = response.count
+            console.log(response)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
     },
     handleCurrentChange (val) {
       this.currentPage = val

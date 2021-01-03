@@ -39,7 +39,7 @@
       <el-col :span="5" style="padding-left:20px;font-size:16px"><p>{{deptMain.deptName}}</p></el-col>
       <el-col :span="19">
         <el-col :span="10" v-for="(dept, i) in deptList[index].deptList" :key="i">
-          <el-link type="primary" style="margin:0px 60px 10px 60px">{{dept.deptName}}</el-link>
+          <el-link type="primary" style="margin:0px 60px 10px 60px" @click="JumptoDetail(dept.deptName)">{{dept.deptName}}</el-link>
         </el-col>
       </el-col>
       <hr style="border-width:0.1px;border-style:dashed;border-color:#DCDCDC;"/>
@@ -67,7 +67,11 @@ export default {
       hosTelephone: '',
       hosPosition: '',
       hosIntro: '',
-      deptList: []
+      deptList: [],
+      currentPage: 0,
+      docListAcc: [],
+      totalPage: 0,
+      docNum: 0
     }
   },
   mounted () {
@@ -77,6 +81,7 @@ export default {
     this.hosTelephone = this.$route.params.hosTelephone
     this.hosPosition = this.$route.params.hosPosition
     this.hosIntro = this.$route.params.hosIntro
+    this.currentPage = 1
     this.showDepartment()
   },
   methods: {
@@ -89,6 +94,18 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    },
+    JumptoDetail: function (e) {
+      console.log('JumptoDetail')
+      localStorage.setItem('search', '')
+      this.$router.push({
+        path: '/DoctorList',
+        name: 'DoctorList',
+        params: {
+          hosName: this.hosName,
+          deptName: e
+        }
+      })
     }
   }
 }
