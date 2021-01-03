@@ -11,6 +11,7 @@ import axios from 'axios'
 Vue.use(ElementUI)
 // Vue.prototype.$api = api
 Vue.prototype.$api = axios
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 
 new Vue({
   router,

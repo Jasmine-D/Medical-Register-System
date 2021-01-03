@@ -97,12 +97,29 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // login(this.ruleForm.phone, this.ruleForm.pass)
-          register(this.ruleForm.phone, this.ruleForm.pass)
-          // alert('注册成功，前往登录界面')
-          // this.$router.push({ path: '/login' })
+          register({
+            contact: this.ruleForm.phone,
+            password: this.ruleForm.pass
+          })
+            .then((res) => {
+              this.$message({
+                message: '注册成功',
+                type: 'success'
+              })
+              this.$router.push({ path: '/login' })
+            })
+            .catch((error) => {
+              console.log(error.status)
+              this.$message({
+                message: '注册失败',
+                type: 'error'
+              })
+            })
         } else {
-          alert('请输入正确的信息格式')
+          this.$message({
+            message: '请输入正确的信息格式',
+            type: 'error'
+          })
           return false
         }
       })

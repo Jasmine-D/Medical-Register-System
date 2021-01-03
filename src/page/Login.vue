@@ -38,6 +38,7 @@
 <script>
 import { isValidPhone } from '../config/validate'
 import { login } from '../api/login'
+import { cookie } from 'js-cookie'
 
 export default {
   data () {
@@ -92,19 +93,22 @@ export default {
             password: this.ruleForm.password
           })
             .then((response) => {
-              // console.log(response)
+              console.log(this.ruleForm.account)
+              // cookie.set('id', this.ruleForm.account)
+              console.log(response)
               this.$message({
-                message: '登陆成功',
+                message: '登录成功',
                 type: 'success'
               })
               this.$router.push({ path: '/home' })
             })
             .catch((error) => {
-              console.log(error.status)
-              this.$message({
-                message: '登录失败',
-                type: 'error'
-              })
+              if (error.status) {
+                this.$message({
+                  message: '登录失败',
+                  type: 'error'
+                })
+              }
             })
         }
       })

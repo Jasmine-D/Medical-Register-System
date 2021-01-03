@@ -2,31 +2,7 @@
   <div>
     <UserHeader/>
     <el-row>
-      <el-col :span="8">
-        <el-card :body-style="{ padding: '10px'}" style="margin-left:50%; margin-top:6%">
-          <div id="bgImg">
-            <div style="margin:0px 15px 0px 15px;text-align:center">
-              <img src="../assets/img/doc1.png" class="image">
-              <p>用户名</p>
-              <br/><br/><br/><br/>
-            </div>
-          </div>
-          <el-menu
-            default-active="2"
-            class="el-menu-vertical"
-            @open="handleOpen"
-            @close="handleClose">
-            <el-menu-item index="1" style="text-align:center">
-              <i class="el-icon-menu"></i>
-              <span slot="title">我的预约</span>
-            </el-menu-item>
-            <el-menu-item index="2" style="text-align:center">
-              <i class="el-icon-setting"></i>
-              <span slot="title">账号设置</span>
-            </el-menu-item>
-          </el-menu>
-        </el-card>
-      </el-col>
+      <Menu/>
       <el-col :span="16">
         <el-card :body-style="{ padding: '10px'}" style="margin:3% 30% 0% 5%">
           <el-col :span="5" style="text-align:center">
@@ -126,8 +102,9 @@
 
 <script>
 import UserHeader from '@/components/UserHeader.vue'
+import Menu from '@/components/Menu.vue'
 export default {
-  components: { UserHeader },
+  components: { UserHeader, Menu },
   // name: 'App',
   data () {
     var validateOldPass = (rule, value, callback) => {
@@ -235,24 +212,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .image{
-    width: 100px;
-    height: 100px;
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 50%;
-    margin-top:20px;
-  }
-  #bgImg{
-    background:url("../assets/img/userBg.png") no-repeat center 0px;
-    background-size:100%;
-  }
-  .el-menu{
-    border-right: solid 0px #e6e6e6;
-  }
-  .el-menu-vertical{
-    margin-bottom:400px;
-  }
   .input-suffix{
     display:inline;
   }

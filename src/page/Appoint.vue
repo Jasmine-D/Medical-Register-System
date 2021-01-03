@@ -60,7 +60,7 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // 上海 医院C 泌尿科
+          // 上海 医院B 泌尿外科
           search(this.appointForm.region, this.appointForm.hospital, this.appointForm.depart)
             .then((response) => {
               // console.log(response)

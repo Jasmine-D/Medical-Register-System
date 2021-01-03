@@ -88,6 +88,10 @@ export default {
         })
         .catch((error) => {
           console.log(error.status)
+          this.$message({
+            message: '服务器忙，请稍候再试',
+            type: 'error'
+          })
         })
     }
   }

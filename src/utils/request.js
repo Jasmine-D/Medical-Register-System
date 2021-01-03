@@ -1,6 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
-// import { Message } from 'element-ui'
+import { MessageBox } from 'element-ui'
 import cookie from 'js-cookie'
 
 // 创建axios实例
@@ -21,7 +21,7 @@ var cancelToken = new CancelToken(
 service.interceptors.request.use(
   config => {
     // debugger
-    // 判断cookie里面是否有名称是guli_token数据
+    // 判断cookie里面是否有名称是 token数据
     if (cookie.get('token')) {
       // 把获取cookie值放到header里面
       // headers: {
@@ -37,6 +37,7 @@ service.interceptors.request.use(
     return config
   },
   err => {
+    /// console.log('oh!!!!')
     return Promise.reject(err)
   })
 
@@ -72,6 +73,28 @@ service.interceptors.response.use(
   },
   error => {
     isLoading--
+    if (error.response.status === 401) {
+      // console.log('no!!!!')
+      // 未登录或token过期
+      if (cookie.get('token')) {
+        cookie.remove('cookie')
+        MessageBox.confirm('您已被登出，点击取消继续留在该页面，或者重新登录', '确定登出', {
+          confirmButtonText: '重新登录',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          window.location.href = '/#/login'
+        })
+      } else {
+        MessageBox.confirm('您尚未登录，点击取消继续留在该页面，或者前往登录', '前往登录', {
+          confirmButtonText: '去登录',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          window.location.href = '/#/login'
+        })
+      }
+    }
     return Promise.reject(error.response)
     // 返回接口返回的错误信息
   })

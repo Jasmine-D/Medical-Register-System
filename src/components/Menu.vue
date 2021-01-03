@@ -4,7 +4,7 @@
         <div id="bgImg">
         <div style="margin:0px 15px 0px 15px;text-align:center">
             <img src="../assets/img/doc1.png" class="image">
-            <p>用户名</p>
+            <p>{{id}}</p>
             <br/><br/><br/><br/>
         </div>
         </div>
@@ -21,7 +21,7 @@
             <img src="../assets/img/icon-pre.png" >
             <span slot="title">我的处方</span>
         </el-menu-item>
-        <el-menu-item index="2" style="text-align:center">
+        <el-menu-item index="/PersonalInfo" style="text-align:center">
             <i class="el-icon-setting"></i>
             <span slot="title">账号设置</span>
         </el-menu-item>
@@ -29,6 +29,39 @@
       </el-card>
     </el-col>
 </template>
+
+<script>
+import cookie from 'js-cookie'
+export default {
+  name: 'Menu',
+  data () {
+    return {
+      id: ' '
+    }
+  },
+  watch: {
+    radio1: function () {
+      if (this.radio1 === '医生') {
+        this.holder = '请输入医生名进行搜索'
+      } else if (this.radio1 === '医院') {
+        this.holder = '请输入医院名进行搜索'
+      }
+    }
+  },
+  methods: {
+    init () {
+      if (cookie.get('token')) {
+        this.id = cookie.get('id')
+      } else {
+        this.id = '未登录'
+      }
+    }
+  },
+  mounted () {
+    this.init()
+  }
+}
+</script>
 
 <style scoped>
  .image{
