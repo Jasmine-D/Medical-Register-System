@@ -99,7 +99,6 @@ export default {
           })
         } else {
           this.$emit('showPage')
-          console.log('hahahh')
         }
       }
     }
