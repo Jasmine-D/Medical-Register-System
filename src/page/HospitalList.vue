@@ -1,29 +1,29 @@
 <template>
     <div style="margin:0 auto">
-    <UserHeader/>
+      <UserHeader @showPage="showPage"></UserHeader>
     <div style="padding:2% 18%">
       <p style="float:left">共搜索出</p>
-      <p style="float:left">3</p>
+      <p style="float:left">{{this.hosNum}}</p>
       <p style="float:left">家医院</p>
     </div>
-    <el-row v-for="(o, index) in 3" :key="o" :offset="index> 0 ? 3 : 0">
+    <el-row v-for="(hosInfo, index) in hosListInfo" :key="index">
       <el-col :span="24" class="hosList">
         <el-card :body-style="{ padding: '0px' }">
           <el-container direction="vertical">
             <el-row>
-              <el-col :span="4"><div><img src="../assets/img/hospital.png" class="image"></div></el-col>
+              <el-col :span="4"><div><img :src="hosInfo.hosPic" class="image"></div></el-col>
               <el-col :span="16" style="text-align:left">
                 <div style="padding:15px 20px">
-                    <p style="font-size:18px;color:black;display:inline">上海交通大学医学院附属瑞金医院</p>
-                    <p style="font-size:15px;padding-left:20px;color:orange;display:inline">三级甲等</p>
+                    <p style="font-size:18px;color:black;display:inline">{{hosInfo.hosName}}</p>
+                    <p style="font-size:15px;padding-left:20px;color:orange;display:inline">{{hosInfo.hosType}}</p>
                 </div>
                 <div>
                     <i class="el-icon-phone" style="display:inline;padding-left:20px"></i>
-                    <p style="font-size:15px;color:gray;display:inline">021-64370045</p>
+                    <p style="font-size:15px;color:gray;display:inline">{{hosInfo.telephone}}</p>
                 </div>
                 <div>
                     <i class="el-icon-location" style="display:inline;padding-left:20px"></i>
-                    <p style="font-size:15px;color:gray;display:inline">上海市黄浦区瑞金二路197号</p>
+                    <p style="font-size:15px;color:gray;display:inline">{{hosInfo.position}}</p>
                 </div>
 
               </el-col>
@@ -36,14 +36,65 @@
         </el-card>
       </el-col>
     </el-row>
+    <div style="text-align:center">
+      <el-pagination
+        background
+        :page-size="3"
+        :current-page.sync="currentPage"
+        :page-count="this.totalPage"
+        layout="prev, pager, next"
+        @current-change="handleCurrentChange"
+        >
+      </el-pagination>
+    </div>
   </div>
 </template>
 
 <script>
 import UserHeader from '@/components/UserHeader.vue'
+
+import {
+  getHosList
+} from '../api/Search'
+
 export default {
-  components: { UserHeader }
+  components: {
+    UserHeader
+  },
   // name: 'App',
+  data () {
+    return {
+      hosListInfo: [],
+      currentPage: 1,
+      totalPage: 0,
+      hosNum: 0,
+      hosName: ''
+    }
+  },
+  mounted () {
+    this.showPage()
+  },
+  methods: {
+    showPage () {
+      this.hosName = localStorage.getItem('search')
+      console.log('hosName', this.hosName)
+      getHosList(this.hosName, 3, this.currentPage)
+        .then((response) => {
+          this.hosListInfo = response.data
+          this.totalPage = response.totalPage
+          this.hosNum = response.count
+          console.log('hosNum', response.hosNum)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    handleCurrentChange (val) {
+      this.currentPage = val
+      console.log(`当前页: ${val}`)
+      this.showPage()
+    }
+  }
 }
 </script>
 

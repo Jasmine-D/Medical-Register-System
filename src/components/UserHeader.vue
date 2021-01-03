@@ -26,7 +26,9 @@
         <el-radio-button label="医院"></el-radio-button>
       </el-radio-group>
       <div style="width:80%">
-        <el-input v-model="input" :placeholder="holder" suffix-icon="el-icon-search"></el-input>
+        <el-input v-model="input" :placeholder="holder">
+          <el-button slot="append" icon="el-icon-search" @click="JumptoSearch()"></el-button>
+        </el-input>
       </div>
     </el-main>
   </el-container>
@@ -70,6 +72,34 @@ export default {
     logOut () {
       cookie.remove('token')
       this.getToken()
+    },
+    // 搜索框搜索医生或者医院，路由跳转或者当前页面传参
+    JumptoSearch () {
+      console.log('调用函数')
+      localStorage.setItem('search', this.input)
+      console.log('this.input', this.input)
+      console.log('this.radio', this.radio1)
+      console.log('showPage', this.$route.path)
+      if (this.radio1 === '医生') {
+        if (this.$route.path !== '/DoctorList') {
+          this.$router.push({
+            path: '/DoctorList',
+            name: 'DoctorList'
+          })
+        } else {
+          this.$emit('showPage')
+        }
+      } else if (this.radio1 === '医院') {
+        if (this.$route.path !== '/HospitalList') {
+          this.$router.push({
+            path: '/HospitalList',
+            name: 'HospitalList'
+          })
+        } else {
+          this.$emit('showPage')
+          console.log('hahahh')
+        }
+      }
     }
   }
 }
