@@ -8,24 +8,22 @@
           <el-col :span="5" ><div><img src="../assets/img/doc1.png" class="image"></div></el-col>
           <el-col :span="18" style="padding-left:20px">
             <div>
-              <p style="font-size:20px;padding:5px;color:orange;display:inline">王医生</p>
-              <p class="word">主任医师</p>
+              <p style="font-size:20px;padding:5px;color:orange;display:inline">{{docName}}</p>
+              <p class="word">{{docProfessional_title}}</p>
             </div>
             <div>
-              <p class="word">解放军总医院第五医学中心</p>
+              <p class="word">{{docHospital_name}}</p>
               <p class="word">---</p>
-              <p class="word">血液内科</p>
+              <p class="word">{{docDepartment}}</p>
             </div>
             <el-divider></el-divider>
             <div>
               <p style="line-height:30px;display:inline">擅长: </p>
-              <p style="line-height:30px;display:inline">血液病和放射病，造血干细胞移植诊治。</p>
+              <p style="line-height:30px;display:inline">{{docExpert_in}}</p>
             </div>
             <div>
               <p style="line-height:20px;display:inline">简介: </p>
-              <p style="line-height:20px;display:inline">王医生，男，副主任医师，医学硕士，血液内科，专业：血液病，长期从事各种血液病、
-    辐射损伤的临床和基础研究，在白血病和非清髓异基因造血干细胞移植治疗血液病和辐射损伤
-    方面有丰富的临床经验。</p>
+              <p style="line-height:20px;display:inline">{{docIntro}}</p>
             </div>
           </el-col>
         </el-row>
@@ -37,15 +35,14 @@
         <el-row>
           <el-col :span="18">
             <p style="font-size:20px;padding:5px;color:black;display:inline">预约挂号</p>
-            <el-button icon="el-icon-refresh-left" size="medium" circle @click="$goRoute({name:'DoctorDetail'})"></el-button>
             <el-divider></el-divider>
             <div>
               <p class="word">医院：</p>
-              <p class="word">解放军总医院第五医学中心</p>
+              <p class="word">{{docHospital_name}}</p>
             </div>
             <div>
               <p class="word">科室：</p>
-              <p class="word">血液内科</p>
+              <p class="word">{{docDepartment}}</p>
             </div>
             <div>
               <p class="word">排班：</p>
@@ -53,32 +50,20 @@
               <p class="word">专家门诊</p>
               <img src="../assets/img/greenCircle.png" class="icon">
               <p class="word">普通门诊</p>
-              <img src="../assets/img/purpleCircle.png" class="icon">
+              <img src="../assets/img/orangeCircle.png" class="icon">
               <p class="word">特需门诊</p>
-              <img src="../assets/img/greyCircle.png" class="icon">
-              <p class="word">不可约</p>
             </div>
-            <div style="padding-left:45px">
-                <el-button type="info" size="medium" round disabled class="button">
-                  <p style="display:inline">12/01</p>
-                  <p style="display:inline">周二</p>
-                  <p style="display:inline">上午</p>
+            <div style="padding-left:45px; display:inline" v-for="(schedule, index) in docScheduleList" :key="index">
+              <el-popover
+                placement="bottom"
+                width="150px"
+                trigger="hover"
+                :content="'挂号费:  '+schedule.price+'元'">
+                <el-button :type="computeBtnType(schedule.professional_title)" size="medium"  slot="reference" round class="button">
+                  <p style="display:inline">{{schedule.date}}</p>
+                  <p style="display:inline">{{computeTimeSlot(schedule.time_slot)}}</p>
                 </el-button>
-                <el-button type="primary" size="medium" round class="button">
-                  <p style="display:inline">12/02</p>
-                  <p style="display:inline">周三</p>
-                  <p style="display:inline">下午</p>
-                </el-button>
-                <el-button type="success" size="medium" round class="button">
-                  <p style="display:inline">12/03</p>
-                  <p style="display:inline">周四</p>
-                  <p style="display:inline">下午</p>
-                </el-button>
-                <el-button type="warning" size="medium" round class="specialButton">
-                  <p style="display:inline">12/04</p>
-                  <p style="display:inline">周五</p>
-                  <p style="display:inline">上午</p>
-                </el-button>
+              </el-popover>
             </div>
           </el-col>
           <el-col :span="1"><el-divider direction="vertical" class="divider"></el-divider></el-col>
@@ -96,12 +81,72 @@
 
 <script>
 import UserHeader from '@/components/UserHeader.vue'
+import {
+  getSchedule
+} from '../api/Search'
 // import axios from 'axios'
 export default {
   components: { UserHeader },
   data () {
     return {
-      info: null
+      info: null,
+      docName: '',
+      docDepartment: '',
+      docProfessional_title: '',
+      docExpert_in: '',
+      docIntro: '',
+      docHospital_name: '',
+      docHospital_region: '',
+      docScheduleList: []
+
+    }
+  },
+  mounted () {
+    this.docName = this.$route.params.docName
+    this.docDepartment = this.$route.params.docDepartment
+    this.docProfessional_title = this.$route.params.docProfessional_title
+    this.docExpert_in = this.$route.params.docExpert_in
+    this.docIntro = this.$route.params.docIntro
+    this.docHospital_name = this.$route.params.docHospital_name
+    this.docHospital_region = this.$route.params.docHospital_region
+    this.showSchedule()
+  },
+  methods: {
+    showSchedule () {
+      getSchedule(this.docName, this.docHospital_name, this.docDepartment)
+        .then((response) => {
+          this.docScheduleList = response.schedule_list
+          console.log(response.schedule_list)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  },
+  computed: {
+    computeBtnType () {
+      return function (ScheduleType) {
+        console.log(ScheduleType)
+        if (ScheduleType === '专家门诊') {
+          return 'primary'
+        } else if (ScheduleType === '普通门诊') {
+          return 'success'
+        } else if (ScheduleType === '特需门诊') {
+          return 'warning'
+        }
+      }
+    },
+    computeTimeSlot () {
+      return function (ScheduleTime) {
+        console.log(ScheduleTime)
+        if (ScheduleTime === 1) {
+          return '上午'
+        } else if (ScheduleTime === 2) {
+          return '下午'
+        } else if (ScheduleTime === 3) {
+          return '全天'
+        }
+      }
     }
   }
 }

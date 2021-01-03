@@ -8,32 +8,15 @@
     </div>
     <el-row v-for="(hosInfo, index) in hosListInfo" :key="index">
       <el-col :span="24" class="hosList">
-        <el-card :body-style="{ padding: '0px' }">
-          <el-container direction="vertical">
-            <el-row>
-              <el-col :span="4"><div><img :src="hosInfo.hosPic" class="image"></div></el-col>
-              <el-col :span="16" style="text-align:left">
-                <div style="padding:15px 20px">
-                    <p style="font-size:18px;color:black;display:inline">{{hosInfo.hosName}}</p>
-                    <p style="font-size:15px;padding-left:20px;color:orange;display:inline">{{hosInfo.hosType}}</p>
-                </div>
-                <div>
-                    <i class="el-icon-phone" style="display:inline;padding-left:20px"></i>
-                    <p style="font-size:15px;color:gray;display:inline">{{hosInfo.telephone}}</p>
-                </div>
-                <div>
-                    <i class="el-icon-location" style="display:inline;padding-left:20px"></i>
-                    <p style="font-size:15px;color:gray;display:inline">{{hosInfo.position}}</p>
-                </div>
-
-              </el-col>
-              <el-col :span="1"><el-divider direction="vertical" class="divider"></el-divider></el-col>
-              <el-col :span="3"><div style="padding:25% 5% 25% 5%">
-                <el-button type="primary" plain @click="$goRoute({name:'HospitalDetail'})">挂号</el-button>
-              </div></el-col>
-            </el-row>
-          </el-container>
-        </el-card>
+        <HosList
+          :hosPic="hosInfo.hosPic"
+          :hosName="hosInfo.hosName"
+          :hosType="hosInfo.hosType"
+          :hosTelephone="hosInfo.telephone"
+          :hosPosition="hosInfo.position"
+          :hosIntro="hosInfo.hosIntro"
+        >
+        </HosList>
       </el-col>
     </el-row>
     <div style="text-align:center">
@@ -52,26 +35,27 @@
 
 <script>
 import UserHeader from '@/components/UserHeader.vue'
-
+import HosList from '@/components/HosList.vue'
 import {
   getHosList
 } from '../api/Search'
 
 export default {
   components: {
-    UserHeader
+    UserHeader,
+    HosList
   },
-  // name: 'App',
   data () {
     return {
       hosListInfo: [],
-      currentPage: 1,
+      currentPage: 0,
       totalPage: 0,
       hosNum: 0,
       hosName: ''
     }
   },
   mounted () {
+    this.currentPage = 1
     this.showPage()
   },
   methods: {
@@ -83,7 +67,7 @@ export default {
           this.hosListInfo = response.data
           this.totalPage = response.totalPage
           this.hosNum = response.count
-          console.log('hosNum', response.hosNum)
+          console.log(response.totalPage)
         })
         .catch((error) => {
           console.log(error)

@@ -5,24 +5,24 @@
     <el-card :body-style="{ padding: '10px' }" style="margin-bottom:30px">
       <el-container direction="vertical">
     <el-row>
-      <el-col :span="6" ><div><img src="../assets/img/hospital.png" class="image"></div></el-col>
+      <el-col :span="6" ><div><img :src="hosPic" class="image"></div></el-col>
       <el-col :span="18" style="padding-left:20px">
         <div>
-          <p style="font-size:20px;padding:5px;color:black;display:inline">上海交通大学医学院附属瑞金医院</p>
-          <p style="font-size:16px;padding-left:20px;color:orange;display:inline">三级甲等</p>
+          <p style="font-size:20px;padding:5px;color:black;display:inline">{{hosName}}</p>
+          <p style="font-size:16px;padding-left:20px;color:orange;display:inline">{{hosType}}</p>
         </div>
         <el-divider></el-divider>
         <div>
           <p style="line-height:30px;display:inline">地址: </p>
-          <p style="line-height:30px;display:inline">上海市黄浦区瑞金二路197号</p>
+          <p style="line-height:30px;display:inline">{{hosPosition}}</p>
         </div>
         <div>
           <p style="line-height:30px;display:inline">电话: </p>
-          <p style="line-height:30px;display:inline">021-64370045</p>
+          <p style="line-height:30px;display:inline">{{hosTelephone}}</p>
         </div>
         <div>
           <p style="line-height:30px;display:inline">简介: </p>
-          <p style="line-height:15px;display:inline">上海交通大学医学院附属瑞金医院(上海瑞金医院)建于1907年，原名广慈医院，是一所三级甲等大型综合性教学医院。</p>
+          <p style="line-height:15px;display:inline">{{hosIntro}}</p>
         </div>
       </el-col>
     </el-row>
@@ -35,15 +35,12 @@
       <el-col :span="24"><p style="font-size:20px;padding-left:20px;color:black;display:inline">挂号科室</p></el-col>
     </el-row>
     <el-divider></el-divider>
-    <el-row v-for="(o, index) in 3" :key="o" :offset="index> 0 ? 3 : 0">
-      <el-col :span="5" style="padding-left:15px;font-size:16px"><p>特色科室</p></el-col>
+    <el-row v-for="(deptMain, index) in deptList" :key="index">
+      <el-col :span="5" style="padding-left:20px;font-size:16px"><p>{{deptMain.deptName}}</p></el-col>
       <el-col :span="19">
-        <el-link type="primary" style="margin:0px 60px 10px 60px">门诊肾脏</el-link>
-        <el-link type="primary" style="margin:0px 60px 10px 60px">门诊血液</el-link>
-        <el-link type="primary" style="margin:0px 60px 10px 60px">门诊内分泌</el-link>
-        <el-link type="primary" style="margin:0px 60px 10px 60px">门诊肾脏</el-link>
-        <el-link type="primary" style="margin:0px 60px 10px 60px">门诊血液</el-link>
-        <el-link type="primary" style="margin:0px 60px 10px 60px">门诊内分泌</el-link>
+        <el-col :span="10" v-for="(dept, i) in deptList[index].deptList" :key="i">
+          <el-link type="primary" style="margin:0px 60px 10px 60px">{{dept.deptName}}</el-link>
+        </el-col>
       </el-col>
       <hr style="border-width:0.1px;border-style:dashed;border-color:#DCDCDC;"/>
     </el-row>
@@ -56,11 +53,42 @@
 <script>
 import UserHeader from '@/components/UserHeader.vue'
 // import axios from 'axios'
+import {
+  getDocDepartment
+} from '../api/Search'
 export default {
   components: { UserHeader },
   data () {
     return {
-      info: null
+      info: null,
+      hosPic: '',
+      hosName: '',
+      hosType: '',
+      hosTelephone: '',
+      hosPosition: '',
+      hosIntro: '',
+      deptList: []
+    }
+  },
+  mounted () {
+    this.hosPic = this.$route.params.hosPic
+    this.hosName = this.$route.params.hosName
+    this.hosType = this.$route.params.hosType
+    this.hosTelephone = this.$route.params.hosTelephone
+    this.hosPosition = this.$route.params.hosPosition
+    this.hosIntro = this.$route.params.hosIntro
+    this.showDepartment()
+  },
+  methods: {
+    showDepartment () {
+      getDocDepartment(this.hosName)
+        .then((response) => {
+          this.deptList = response.data[0].departmentList
+          console.log(response.data[0])
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }
