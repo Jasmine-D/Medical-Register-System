@@ -4,7 +4,7 @@
         <div id="bgImg">
         <div style="margin:0px 15px 0px 15px;text-align:center">
             <img src="../assets/img/doc1.png" class="image">
-            <p>{{id}}</p>
+            <p class="id">{{id}}</p>
             <br/><br/><br/><br/>
         </div>
         </div>
@@ -89,5 +89,9 @@ export default {
   }
   .el-icon-arrow-down {
     font-size: 12px;
+  }
+  .id{
+    padding-top:20px;
+    font-size:16px
   }
 </style>

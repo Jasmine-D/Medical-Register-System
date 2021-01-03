@@ -38,7 +38,7 @@
 <script>
 import { isValidPhone } from '../config/validate'
 import { login } from '../api/login'
-import { cookie } from 'js-cookie'
+import cookie from 'js-cookie'
 
 export default {
   data () {
@@ -94,7 +94,8 @@ export default {
           })
             .then((response) => {
               console.log(this.ruleForm.account)
-              // cookie.set('id', this.ruleForm.account)
+              cookie.set('id', this.ruleForm.account)
+              console.log('id', cookie.get('id'))
               console.log(response)
               this.$message({
                 message: '登录成功',

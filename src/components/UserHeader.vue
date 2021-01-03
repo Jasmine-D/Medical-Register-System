@@ -73,6 +73,7 @@ export default {
       cookie.remove('token')
       cookie.remove('id')
       this.getToken()
+      this.$router.push({ path: '/home' })
     },
     // 搜索框搜索医生或者医院，路由跳转或者当前页面传参
     JumptoSearch () {
