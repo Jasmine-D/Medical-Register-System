@@ -5,7 +5,7 @@
       <Menu/>
       <el-col :span="16">
         <div id="preList" v-for="(item,index) in lists" :key="index">
-          <el-card :body-style="{ padding: '10px',height:'540px'}" style="margin:3% 30% 3% 5% ">
+          <el-card :body-style="{ padding: '10px',height:'510px'}" style="margin:3% 30% 3% 5% ">
             <div class="border">
               <p class="title">处方笺</p>
               <p class="s_title">时间：{{item.time}}</p>
@@ -81,10 +81,10 @@ export default {
 .Rp{
   font-family:'Times New Roman', Times, serif;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 20px;
 }
 .doctor{
   float:right;
-  padding:30px 50px;
+  padding:20px 50px;
 }
 </style>
