@@ -26,38 +26,47 @@ export default new VueRouter({
     },
     {
       path: '/home',
+      name: 'Home',
       component: Home
     },
     {
       path: '/register',
+      name: 'Register',
       component: Register
     },
     {
       path: '/login',
+      name: 'Login',
       component: Login
     },
     {
       path: '/appoint',
+      name: 'Appoint',
       component: Appoint
     },
     {
       path: '/config',
+      name: 'Config',
       component: Config
     },
     {
       path: '/order',
+      name: 'Order',
       component: Order
     },
     {
       path: '/record',
+      name: 'Record',
       component: Record
     },
     {
       path: '/prescription',
+      name: 'Prescription',
       component: Prescription
     },
     {
       path: '/guide',
+      name: 'Guide',
       component: Guide
     },
     {

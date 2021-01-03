@@ -33,9 +33,11 @@
 
 <script>
 import UserHeader from '@/components/UserHeader.vue'
+import DoctorList from '@/page/DoctorList.vue'
 import { search } from '../api/order'
 export default {
-  components: { UserHeader },
+  // eslint-disable-next-line vue/no-unused-components
+  components: { UserHeader, DoctorList },
   data () {
     return {
       appointForm: {
@@ -61,12 +63,19 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // 上海 医院B 泌尿外科
+          this.$router.push({
+            name: 'DoctorList',
+            query: {
+              region: this.appointForm.region,
+              hospital: this.appointForm.hospital,
+              dept: this.appointForm.depart
+            }
+          })
           search(this.appointForm.region, this.appointForm.hospital, this.appointForm.depart)
             .then((response) => {
               // console.log(response)
               console.log(response.data[0].name)
             })
-          console.log('submit!')
         } else {
           console.log('error submit!!')
           return false

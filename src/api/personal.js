@@ -14,3 +14,12 @@ export function pres () {
     method: 'get'
   })
 }
+
+export function change (pwd) {
+  // console.log('in record api ')
+  return request({
+    url: 'changepassword',
+    method: 'put',
+    data: pwd
+  })
+}
