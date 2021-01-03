@@ -22,16 +22,16 @@
                 <td>
                   <div class="docInfo"><img class="image" src="../assets/img/doc1.png" alt="张峰">
                     <dl>
-                      <dt style="color:#2d8cf0;">{{doctor}}张峰</dt>
-                      <dd><p>{{hospital_name}}{{professional_title}}复旦大学附属中山医院高级专家门诊</p>
-                          <p>{{department}}心内科</p>
+                      <dt style="color:#2d8cf0;">{{form.doctor_name}}</dt>
+                      <dd><p>{{form.hospital_name}}{{form.professional_title}}</p>
+                          <p>{{form.department}}</p>
                       </dd>
                     </dl>
                   </div>
                 </td>
-                <td>{{professional_title}}高级专家门诊</td>
-                <td>{{date}}2021年01月04日&nbsp;上午<br/></td>
-                <td class="g-txt-orange">{{price}}400.00元<br/>(挂号费）</td>
+                <td>{{form.professional_title}}</td>
+                <td>{{form.date}}&nbsp;上午<br/></td>
+                <td class="g-txt-orange">{{form.price}}元<br/>(挂号费）</td>
               </tr>
             </tbody>
           </table>
@@ -40,7 +40,12 @@
       <el-row :gutter="16" >
       <el-card :body-style="{ padding: '15px' }" style="margin-bottom:40px">
         <p class="title">填写疾病信息</p>
-        <el-input type="textarea" :rows="2" placeholder="请输入疾病信息" v-model="details" maxlength="50" show-word-limit class="config-illMsg"></el-input>
+        <el-input type="textarea"
+        :rows="2"
+        placeholder="请输入疾病信息"
+        v-model="form.details" maxlength="50"
+        show-word-limit class="config-illMsg"
+        required></el-input>
       </el-card>
       </el-row>
        <el-button type="success" round style="display:block;margin:0px auto" @click="handleConfig">确认预约</el-button>
@@ -50,18 +55,21 @@
 
 <script>
 import UserHeader from '@/components/UserHeader.vue'
+import { config } from '../api/order'
 export default {
   components: { UserHeader },
   data () {
     return {
-      date: '',
-      hospital_name: '',
-      doctor_name: '',
-      department: '',
-      time_slot: '',
-      professional_title: '',
-      price: '',
-      details: ''
+      form: {
+        date: '2021-01-04',
+        hospital_name: '复旦大学附属中山医院',
+        doctor_name: '张峰',
+        department: '心内科',
+        time_slot: 1,
+        professional_title: '高级专家门诊',
+        price: 400.00,
+        details: ' '
+      }
     }
   },
   methods: {
@@ -69,15 +77,18 @@ export default {
       console.log('go back')
     },
     handleConfig () {
-      this.$message({
-        message: '成功发送预约请求，等待后台处理',
-        type: 'success'
-      })
-      this.$router.push({ path: '/order' })
-      this.$message({
-        message: '服务器忙，请稍后再试',
-        type: 'warning'
-      })
+      config(this.form)
+        .then((res) => {
+          console.log(res)
+          console.log(res.statusCode)
+          this.$message({
+            message: '成功发送预约请求，等待后台处理',
+            type: 'success'
+          })
+        })
+        .catch((error) => {
+          console.log(error.status)
+        })
     }
   }
 }

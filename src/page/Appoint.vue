@@ -33,6 +33,7 @@
 
 <script>
 import UserHeader from '@/components/UserHeader.vue'
+import { search } from '../api/order'
 export default {
   components: { UserHeader },
   data () {
@@ -44,13 +45,13 @@ export default {
       },
       rules: {
         region: [
-          { required: true, message: '请输入地区', trigger: 'change' }
+          { required: true, message: '请输入地区', trigger: 'blur' }
         ],
         hospital: [
-          { required: true, message: '请输入医院', trigger: 'change' }
+          { required: true, message: '请输入医院', trigger: 'blur' }
         ],
         depart: [
-          { required: true, message: '请输入科室', trigger: 'change' }
+          { required: true, message: '请输入科室', trigger: 'blur' }
         ]
       }
     }
@@ -59,15 +60,18 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          // 上海 医院C 泌尿科
+          search(this.appointForm.region, this.appointForm.hospital, this.appointForm.depart)
+            .then((response) => {
+              // console.log(response)
+              console.log(response.data[0].name)
+            })
+          console.log('submit!')
         } else {
           console.log('error submit!!')
           return false
         }
       })
-    },
-    resetForm (formName) {
-      this.$refs[formName].resetFields()
     }
   }
 }

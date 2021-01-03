@@ -44,7 +44,7 @@ export default {
       record()
         .then((response) => {
           this.lists = response.records
-          console.log(response.data.records)
+          console.log(response.statusCode)
         })
         .catch((error) => {
           console.log(error)

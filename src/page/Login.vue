@@ -1,7 +1,7 @@
 <template>
     <div class="login_container">
       <el-container>
-        <el-aside width="830px">
+        <el-aside width="60%">
             <div style="padding-left:20px">
                 <img class ="backImg" src="..\assets\img\bigImg.png">
             </div>
@@ -38,7 +38,6 @@
 <script>
 import { isValidPhone } from '../config/validate'
 import { login } from '../api/login'
-import { cookie } from 'js-cookie'
 
 export default {
   data () {
@@ -93,20 +92,20 @@ export default {
             password: this.ruleForm.password
           })
             .then((response) => {
-              if (response) {
-                console.log(response)
-                this.$router.push({ path: '/home' })
-              }
+              // console.log(response)
+              this.$message({
+                message: '登陆成功',
+                type: 'success'
+              })
+              this.$router.push({ path: '/home' })
             })
-          if (cookie.get('token')) {
-            this.$message({
-              message: '登陆成功',
-              type: 'success'
+            .catch((error) => {
+              console.log(error.status)
+              this.$message({
+                message: '登录失败',
+                type: 'error'
+              })
             })
-          }
-        } else {
-          this.$message.error('登录失败')
-          // return false
         }
       })
     },
@@ -129,7 +128,7 @@ export default {
   .el-main {
     background-color:#bfe5fa;
     color: #333;
-    width:60%;
+    width:40%;
     text-align: center;
     line-height: 20px;
   }

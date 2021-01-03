@@ -19,10 +19,10 @@
                   <span v-else>无数据</span>
                 </template> -->
             </el-table-column>
-            <el-table-column prop="price" label="金额"></el-table-column>
-            <el-table-column fixed="right" label="操作" v-if="show">
+            <el-table-column prop="id" label="金额" v-if="show"></el-table-column>
+            <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
-                  <el-button v-if="scope.row.state === 申请中 " @click="handleCancle(scope.row.order_id)" type="text">取消订单</el-button>
+                  <el-button v-if="scope.row.status === '申请中' " @click="handleCancle(scope.row.id)" type="text">取消订单</el-button>
                 </template>
             </el-table-column>
           </el-table>
@@ -35,7 +35,7 @@
 <script>
 import UserHeader from '@/components/UserHeader.vue'
 import Menu from '@/components/Menu.vue'
-import { present } from '../api/order'
+import { present, cancel } from '../api/order'
 export default {
   components: {
     UserHeader,
@@ -60,15 +60,18 @@ export default {
         })
     },
     handleCancle (id) {
-      console.log(id)
-      /* cancel(id)
+      // console.log(id)
+      cancel(id)
         .then((response) => {
-          this.lists = response
-          console.log(response.appoint_list)
+          present()
+            .then((res) => {
+              this.lists = res.appoint_list
+              // console.log(res.appoint_list)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
         })
-        .catch((error) => {
-          console.log(error)
-        }) */
     }
   },
   mounted () {

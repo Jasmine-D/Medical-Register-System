@@ -46,7 +46,7 @@ service.interceptors.response.use(
   response => {
     if (response.data && response.data.token) {
       cookie.set('token', response.data.token)
-      console.log('token', cookie.get('token'))
+      // console.log('token', cookie.get('token'))
     }
     isLoading--
     // //debugger
