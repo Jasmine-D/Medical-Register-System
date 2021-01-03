@@ -45,6 +45,7 @@ export default {
         hospital: '',
         depart: ''
       },
+      method: 'appoint',
       rules: {
         region: [
           { required: true, message: '请输入地区', trigger: 'blur' }
@@ -63,12 +64,14 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // 上海 医院B 泌尿外科
+          localStorage.setItem('search', '')
           this.$router.push({
             name: 'DoctorList',
             query: {
               region: this.appointForm.region,
               hospital: this.appointForm.hospital,
-              dept: this.appointForm.depart
+              dept: this.appointForm.depart,
+              method: this.method
             }
           })
           search(this.appointForm.region, this.appointForm.hospital, this.appointForm.depart)
