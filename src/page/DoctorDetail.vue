@@ -52,6 +52,13 @@
               <p class="word">普通门诊</p>
               <img src="../assets/img/orangeCircle.png" class="icon">
               <p class="word">特需门诊</p>
+              <img src="../assets/img/greyCircle.png" class="icon">
+              <p class="word">不可约</p>
+            </div>
+            <div style="padding-left:45px; display:inline" v-if="show">
+              <el-button :type="info" size="medium" disabled round class="button">
+                <p style="display:inline">不可约</p>
+              </el-button>
             </div>
             <div style="padding-left:45px; display:inline" v-for="(schedule, index) in docScheduleList" :key="index">
               <el-popover
@@ -97,7 +104,8 @@ export default {
       docIntro: '',
       docHospital_name: '',
       docHospital_region: '',
-      docScheduleList: []
+      docScheduleList: [],
+      show: false
 
     }
   },
@@ -119,6 +127,7 @@ export default {
           console.log(response.schedule_list)
         })
         .catch((error) => {
+          this.show = true
           console.log(error)
         })
     },
