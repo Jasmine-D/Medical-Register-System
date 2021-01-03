@@ -27,8 +27,11 @@
                     </dl>
                   </div>
                 </td>
-                <td>{{form.professional_title}}</td>
-                <td>{{form.date}}&nbsp;<br/></td>
+                <td>&nbsp;{{form.professional_title}}</td>
+                <td>{{form.date}}&nbsp;
+                      <span v-if="form.time_slot === 1"> 上午</span>
+                      <span v-else-if="form.time_slot === 2"> 下午</span>
+                      <span v-else-if ="form.time_slot === 3"> 全天</span><br/></td>
                 <td class="g-txt-orange">{{form.price}}元<br/>(挂号费）</td>
               </tr>
             </tbody>

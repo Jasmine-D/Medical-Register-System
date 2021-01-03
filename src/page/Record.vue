@@ -4,6 +4,7 @@
     <el-row>
       <Menu/>
       <el-col :span="16">
+        <div  v-if="show" style="padding-top:50px"><img src="../assets/img/noapply.png" style="padding-left:43%"><p style="text-align:center;font-size:20px">空空如也</p></div>
         <div id="caseList" v-for="(item,index) in lists" :key="index">
           <el-card :body-style="{ padding: '10px',height:'400px'}" style="margin:3% 30% 3% 5% ">
             <div class="border">
@@ -35,7 +36,7 @@ export default {
   },
   data () {
     return {
-      // table 的假数据
+      show: false,
       lists: []
     }
   },
@@ -44,7 +45,9 @@ export default {
       record()
         .then((response) => {
           this.lists = response.records
-          console.log(response.statusCode)
+          if (response.count === 0) {
+            this.show = true
+          }
         })
         .catch((error) => {
           console.log(error)

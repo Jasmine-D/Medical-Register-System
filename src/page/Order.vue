@@ -30,7 +30,7 @@
             <el-table-column prop="name" label="医生"></el-table-column>
             <el-table-column prop="status" label="预约状态">
                 <template slot-scope="scope">
-                  <span style="color:green" v-if="scope.row.time_slot === '申请成功'">申请成功</span>
+                  <span style="color:green" v-if="scope.row.status === '申请成功'">申请成功</span>
                   <span style="color:#87A3D3" v-else-if="scope.row.status === '已就诊'">已就诊</span>
                   <span style="color:#D39287" v-else-if="scope.row.status === '取消中' ">取消中</span>
                   <span style="color:#D39287" v-else-if="scope.row.status === '申请中' ">申请中</span>
