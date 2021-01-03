@@ -59,7 +59,7 @@
                 width="150px"
                 trigger="hover"
                 :content="'挂号费:  '+schedule.price+'元'">
-                <el-button :type="computeBtnType(schedule.professional_title)" size="medium"  slot="reference" round class="button">
+                <el-button :type="computeBtnType(schedule.professional_title)" @click="JumptoConfig(schedule.date,schedule.time_slot,schedule.professional_title,schedule.price)" size="medium"  slot="reference" round class="button">
                   <p style="display:inline">{{schedule.date}}</p>
                   <p style="display:inline">{{computeTimeSlot(schedule.time_slot)}}</p>
                 </el-button>
@@ -121,6 +121,21 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    },
+    // eslint-disable-next-line camelcase
+    JumptoConfig (date, time_slot, professional_title, price) {
+      this.$router.push({
+        name: 'Config',
+        query: {
+          date: date,
+          hospital_name: this.docHospital_name,
+          doctor_name: this.docName,
+          department: this.docDepartment,
+          time_slot: time_slot,
+          professional_title: professional_title,
+          price: price
+        }
+      })
     }
   },
   computed: {
