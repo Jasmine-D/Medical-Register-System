@@ -12,10 +12,6 @@
                 <h2 class="title">账号登录</h2>
                 <el-form :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                 <el-form-item style="margin-left:-80px" prop="resource">
-                  <!-- <el-radio-group v-model="ruleForm.identity">
-                    <el-radio label="我是患者"></el-radio>
-                    <el-radio label="我是医生"></el-radio>
-                  </el-radio-group> -->
                 </el-form-item>
                   <el-form-item label="账号：" prop="account">
                     <el-input  v-model="ruleForm.account" autocomplete="off" clearable >
@@ -62,16 +58,10 @@ export default {
     }
     return {
       ruleForm: {
-        identity: '',
         account: '',
         password: ''
       },
       rules: {
-        identity: [{
-          required: true,
-          message: '请选择身份',
-          trigger: 'change'
-        }],
         account: [{
           validator: validateAccount,
           trigger: 'blur'
@@ -93,10 +83,7 @@ export default {
             password: this.ruleForm.password
           })
             .then((response) => {
-              console.log(this.ruleForm.account)
               cookie.set('id', this.ruleForm.account)
-              console.log('id', cookie.get('id'))
-              console.log(response)
               this.$message({
                 message: '登录成功',
                 type: 'success'

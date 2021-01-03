@@ -12,17 +12,18 @@
             <el-table-column prop="name" label="医生"></el-table-column>
             <el-table-column prop="price" label="金额"></el-table-column>
             <el-table-column prop="status" label="预约状态">
-                <!-- <template slot-scope="scope">
-                  <span style="color:#87A3D3" v-if="scope.row.state === 0">未就诊</span>
-                  <span style="color:green" v-else-if="scope.row.state === 1">已就诊</span>
-                  <span style="color:#D39287" v-else-if="scope.row.state === 2">待审核</span>
+                 <template slot-scope="scope">
+                  <span style="color:green" v-if="scope.row.status === '申请成功'">申请成功</span>
+                  <span style="color:#87A3D3" v-else-if="scope.row.status === '已就诊'">已就诊</span>
+                  <span style="color:#D39287" v-else-if="scope.row.status === '取消中' ">取消中</span>
+                  <span style="color:#D39287" v-else-if="scope.row.status === '申请中' ">申请中</span>
                   <span v-else>无数据</span>
                 </template> -->
             </el-table-column>
             <el-table-column prop="id" label="金额" v-if="show"></el-table-column>
             <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
-                  <el-button v-if="scope.row.status === '申请中' " @click="handleCancle(scope.row.id)" type="text">取消订单</el-button>
+                  <el-button v-if="scope.row.status === '申请中' || scope.row.status === '申请成功' " @click="handleCancle(scope.row.id)" type="text">取消订单</el-button>
                 </template>
             </el-table-column>
           </el-table>

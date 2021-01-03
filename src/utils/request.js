@@ -47,26 +47,8 @@ service.interceptors.response.use(
   response => {
     if (response.data && response.data.token) {
       cookie.set('token', response.data.token)
-      // console.log('token', cookie.get('token'))
     }
     isLoading--
-    // //debugger
-    // if (response.data.code == 28004) {
-    //   console.log("response.data.resultCode是28004")
-    //   // 返回 错误代码-1 清除ticket信息并跳转到登录页面
-    //   //debugger
-    //   window.location.href = "/login"
-    //   return
-    // } else {
-    //   if (response.data.code !== 20000) {
-    //     if (response.data.code != 25000) {
-    //       Message({
-    //         message: response.data.message || 'error',
-    //         type: 'error',
-    //         duration: 5 * 1000
-    //       })
-    //     }
-    //   } else {
     return response.data
     // }
     // }

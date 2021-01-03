@@ -65,7 +65,7 @@ export default {
         hospital_name: '复旦大学附属中山医院',
         doctor_name: '张峰',
         department: '心内科',
-        time_slot: 1,
+        time_slot: 1, // parseInt
         professional_title: '高级专家门诊',
         price: 400.00,
         details: ' '
@@ -79,12 +79,11 @@ export default {
     handleConfig () {
       config(this.form)
         .then((res) => {
-          console.log(res)
-          console.log(res.statusCode)
           this.$message({
             message: '成功发送预约请求，等待后台处理',
             type: 'success'
           })
+          this.$router.push({ path: '/order' })
         })
         .catch((error) => {
           console.log(error.status)

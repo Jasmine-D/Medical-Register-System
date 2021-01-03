@@ -9,7 +9,6 @@ import Order from '../page/Order.vue'
 import Record from '../page/Record.vue'
 import Prescription from '../page/Prescription.vue'
 import Guide from '../page/Guide.vue'
-import Article from '../page/Article.vue'
 
 import DoctorList from '../page/DoctorList.vue'
 import DoctorDetail from '../page/DoctorDetail.vue'
@@ -60,10 +59,6 @@ export default new VueRouter({
     {
       path: '/guide',
       component: Guide
-    },
-    {
-      path: '/article',
-      component: Article
     },
     {
       path: '/DoctorList',
