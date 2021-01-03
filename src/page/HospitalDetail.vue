@@ -75,12 +75,12 @@ export default {
     }
   },
   mounted () {
-    this.hosPic = this.$route.params.hosPic
-    this.hosName = this.$route.params.hosName
-    this.hosType = this.$route.params.hosType
-    this.hosTelephone = this.$route.params.hosTelephone
-    this.hosPosition = this.$route.params.hosPosition
-    this.hosIntro = this.$route.params.hosIntro
+    this.hosPic = this.$route.query.hosPic
+    this.hosName = this.$route.query.hosName
+    this.hosType = this.$route.query.hosType
+    this.hosTelephone = this.$route.query.hosTelephone
+    this.hosPosition = this.$route.query.hosPosition
+    this.hosIntro = this.$route.query.hosIntro
     this.currentPage = 1
     this.showDepartment()
   },
@@ -101,7 +101,7 @@ export default {
       this.$router.push({
         path: '/DoctorList',
         name: 'DoctorList',
-        params: {
+        query: {
           hosName: this.hosName,
           deptName: e
         }

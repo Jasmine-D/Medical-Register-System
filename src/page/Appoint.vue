@@ -77,7 +77,7 @@ export default {
           search(this.appointForm.region, this.appointForm.hospital, this.appointForm.depart)
             .then((response) => {
               // console.log(response)
-              console.log(response.data[0].name)
+              console.log(response)
             })
         } else {
           console.log('error submit!!')

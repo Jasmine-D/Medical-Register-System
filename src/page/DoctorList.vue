@@ -95,8 +95,8 @@ export default {
               console.log(response)
             })
         } else {
-          this.hosName = this.$route.params.hosName
-          this.deptName = this.$route.params.deptName
+          this.hosName = this.$route.query.hosName
+          this.deptName = this.$route.query.deptName
           getDocListAcc(this.hosName, this.deptName, 3, this.currentPage)
             .then((response) => {
               this.docListInfo = response.data
@@ -119,7 +119,7 @@ export default {
       this.$router.push({
         path: '/DoctorDetail',
         name: 'DoctorDetail',
-        params: {
+        query: {
           hosPic: this.hosPic,
           hosName: this.hosName,
           hosType: this.hosType,

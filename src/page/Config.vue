@@ -3,8 +3,6 @@
     <!-- 导航区域 -->
     <UserHeader/>
     <div class="config">
-      <el-page-header @back="goBack" content="确认预约" style="padding-bottom:20px">
-      </el-page-header>
       <el-card :body-style="{ padding: '15px' }" style="margin-bottom:40px">
         <div class="topInfo">
           <table>
@@ -30,7 +28,7 @@
                   </div>
                 </td>
                 <td>{{form.professional_title}}</td>
-                <td>{{form.date}}&nbsp;上午<br/></td>
+                <td>{{form.date}}&nbsp;<br/></td>
                 <td class="g-txt-orange">{{form.price}}元<br/>(挂号费）</td>
               </tr>
             </tbody>
@@ -55,27 +53,25 @@
 
 <script>
 import UserHeader from '@/components/UserHeader.vue'
+import cookie from 'js-cookie'
 import { config } from '../api/order'
 export default {
   components: { UserHeader },
   data () {
     return {
       form: {
-        date: '2021-01-04',
-        hospital_name: '复旦大学附属中山医院',
-        doctor_name: '张峰',
-        department: '心内科',
-        time_slot: 1, // parseInt
-        professional_title: '高级专家门诊',
-        price: 400.00,
+        date: '',
+        hospital_name: '',
+        doctor_name: '',
+        department: '',
+        time_slot: '', // parseInt
+        professional_title: '',
+        price: '',
         details: ' '
       }
     }
   },
   methods: {
-    goBack () {
-      console.log('go back')
-    },
     handleConfig () {
       config(this.form)
         .then((res) => {
@@ -87,12 +83,26 @@ export default {
         })
         .catch((error) => {
           console.log(error.status)
-          this.$message({
-            message: '服务器忙，请稍候再试',
-            type: 'error'
-          })
+          if (cookie.get('token')) {
+            this.$message({
+              message: '服务器忙，请稍候再试',
+              type: 'error'
+            })
+          }
         })
+    },
+    init () {
+      this.form.date = this.$route.query.date
+      this.form.hospital_name = this.$route.query.hospital_name
+      this.form.doctor_name = this.$route.query.doctor_name
+      this.form.department = this.$route.query.department
+      this.form.time_slot = this.$route.query.time_slot
+      this.form.professional_title = this.$route.query.professional_title
+      this.form.price = this.$route.query.price
     }
+  },
+  mounted () {
+    this.init()
   }
 }
 </script>

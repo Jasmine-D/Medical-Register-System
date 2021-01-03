@@ -68,7 +68,7 @@ export default {
       this.$router.push({
         path: '/DoctorDetail',
         name: 'DoctorDetail',
-        params: {
+        query: {
           docName: this.docName,
           docDepartment: this.docDepartment,
           docProfessional_title: this.docProfessional_title,

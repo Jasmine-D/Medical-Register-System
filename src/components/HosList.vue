@@ -64,7 +64,7 @@ export default {
       this.$router.push({
         path: '/HospitalDetail',
         name: 'HospitalDetail',
-        params: {
+        query: {
           hosPic: this.hosPic,
           hosName: this.hosName,
           hosType: this.hosType,

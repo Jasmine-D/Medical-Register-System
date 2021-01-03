@@ -110,13 +110,13 @@ export default {
     }
   },
   mounted () {
-    this.docName = this.$route.params.docName
-    this.docDepartment = this.$route.params.docDepartment
-    this.docProfessional_title = this.$route.params.docProfessional_title
-    this.docExpert_in = this.$route.params.docExpert_in
-    this.docIntro = this.$route.params.docIntro
-    this.docHospital_name = this.$route.params.docHospital_name
-    this.docHospital_region = this.$route.params.docHospital_region
+    this.docName = this.$route.query.docName
+    this.docDepartment = this.$route.query.docDepartment
+    this.docProfessional_title = this.$route.query.docProfessional_title
+    this.docExpert_in = this.$route.query.docExpert_in
+    this.docIntro = this.$route.query.docIntro
+    this.docHospital_name = this.$route.query.docHospital_name
+    this.docHospital_region = this.$route.query.docHospital_region
     this.showSchedule()
   },
   methods: {

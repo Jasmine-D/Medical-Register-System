@@ -38,7 +38,7 @@
                 </template>
             </el-table-column>
             <el-table-column prop="id" label="编号" v-if="show"></el-table-column>
-            <el-table-column prop="time_slot" label="编号" v-if="show"></el-table-column>
+            <el-table-column prop="time_slot" label="时间" v-if="show"></el-table-column>
             <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
                   <el-button v-if="scope.row.status === '申请中' || scope.row.status === '申请成功' " @click="handleCancle(scope.row.id)" type="text">取消订单</el-button>
