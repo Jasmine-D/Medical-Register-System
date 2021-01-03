@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-export function search (region, hospital, depart) {
+export function search (region, hospital, depart, limit, curPage) {
   // console.log('in record api ')
   return request({
-    url: 'hospital_data/query?region_name=' + region + '&hospital_name=' + hospital + '&department_name=' + depart,
+    url: 'hospital_data/query?region_name=' + region + '&hospital_name=' + hospital + '&department_name=' + depart + '&itemCountOnOnePage=' + limit + '&pageIndex' + curPage,
     method: 'get'
   })
 }

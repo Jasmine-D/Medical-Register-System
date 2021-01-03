@@ -38,6 +38,7 @@
 <script>
 import UserHeader from '@/components/UserHeader.vue'
 import DocList from '@/components/DocList.vue'
+import { search } from '../api/order'
 import {
   getDocList,
   getDocListAcc
@@ -56,7 +57,9 @@ export default {
       docNum: 0,
       docName: '',
       hosName: '',
-      deptName: ''
+      deptName: '',
+      method: '',
+      region: ''
     }
   },
   mounted () {
@@ -79,18 +82,32 @@ export default {
             console.log(error)
           })
       } else {
-        this.hosName = this.$route.params.hosName
-        this.deptName = this.$route.params.deptName
-        getDocListAcc(this.hosName, this.deptName, 3, this.currentPage)
-          .then((response) => {
-            this.docListInfo = response.data
-            this.totalPage = response.totalPage
-            this.docNum = response.count
-            console.log(response)
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+        this.method = this.$route.query.method
+        if (this.method === 'appoint') {
+          this.region = this.$route.query.region
+          this.hosName = this.$route.query.hospital
+          this.deptName = this.$route.query.dept
+          search(this.region, this.hosName, this.deptName, 3, this.currentPage)
+            .then((response) => {
+              this.docListInfo = response.data
+              this.totalPage = 1
+              this.docNum = response.count
+              console.log(response)
+            })
+        } else {
+          this.hosName = this.$route.params.hosName
+          this.deptName = this.$route.params.deptName
+          getDocListAcc(this.hosName, this.deptName, 3, this.currentPage)
+            .then((response) => {
+              this.docListInfo = response.data
+              this.totalPage = response.totalPage
+              this.docNum = response.count
+              console.log(response)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        }
       }
     },
     handleCurrentChange (val) {
